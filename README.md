@@ -28,7 +28,9 @@ npm install
 
 To run application
 
-- Open the folder of the project and run the next command in console
+- Open the folder of the project, see the root folder and change the name of the file `env.example` to `.env`
+
+- Now the project is ready to run, put the next command in the console
 
 ```
 npm start
