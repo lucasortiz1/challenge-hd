@@ -1,4 +1,4 @@
-# Challenge Meli Frontend
+# Challenge Human Decode Frontend
 
 ## Getting Started
 
@@ -6,7 +6,7 @@ Instructions and versions that you need to running on your local machine
 
 ### Prerequisites
 
-- Node 12.+
+- Node 14.+
 - Npm 6+
 
 ### Installing
