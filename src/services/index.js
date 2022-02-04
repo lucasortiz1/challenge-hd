@@ -4,12 +4,13 @@ const instance = axios.create({
   baseURL: `${process.env.REACT_APP_API_BASE_URL}`,
   timeout: 1000,
   params: {
-    api_key: process.env.REACT_APP_API_KEY
+    api_key: process.env.REACT_APP_API_KEY,
   },
   headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "application/json;charset=utf-8",
+    'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
   },
+  withCredentials: false,
+  responseType: 'json'
 })
 
 export const getDiscoverMovies = async () => {
@@ -25,7 +26,7 @@ export const getDiscoverMovies = async () => {
 export const getSearchMovies = async movie => {
   try {
     const { data } = await instance.get(`/search/movie?query=${movie}`)
-    return data
+    return data.results
   } catch (err) {
     throw new Error(err)
   }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getDiscoverMovies, getSearchMovies } from 'services'
 import { SearchBar, MovieCard, SectionTitle, StarsFilter } from 'components'
 import {
@@ -15,32 +15,53 @@ import {
 } from './Discover.styled'
 
 const Discover = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const [movies, setMovies] = useState(null)
   const [searchValue, setSearchValue] = useState('')
   const [searchedMovies, setSearchedMovies] = useState(null)
   const [filteredMovies, setFilteredMovies] = useState(null)
   const [rating, setRating] = useState(0)
 
+  const setDiscoverMovies = async () => {
+    try {
+      const movies = await getDiscoverMovies()
+      setMovies(movies)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const setSearchMovies = async query => {
+    try {
+      const movies = await getSearchMovies(query)
+      setSearchedMovies(movies)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
-    getDiscoverMovies()
-      .then(dataMovies => setMovies(dataMovies))
-      .catch(error => console.log(error))
+    const query = searchParams.get('query')
+
+    if (query) {
+      setSearchMovies(query)
+      setSearchValue(query)
+    } else {
+      setDiscoverMovies()
+    }
   }, [])
 
   const handleSearch = e => {
     e.preventDefault()
     const { value } = e.target[0]
 
+    navigate(`/search?query=${value}`)
     setRating(0)
     setFilteredMovies(null)
     setSearchValue(value)
 
-    if (value) {
-      getSearchMovies(value)
-        .then(dataSearch => setSearchedMovies(dataSearch.results))
-        .catch(error => console.log(error))
-    }
+    if (value) setSearchMovies(value)
   }
 
   const handleRating = ratingNumber => {

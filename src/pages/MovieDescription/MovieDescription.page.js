@@ -25,15 +25,20 @@ const MovieDescription = () => {
   const { state } = useLocation()
   const [movieData, setMovieData] = useState(state)
 
-  useEffect(() => {
-    if (!movieData) {
-      getMovieById(id)
-        .then(movieData => setMovieData(movieData))
-        .catch(error => console.log(error))
+  const setMovie = async () => {
+    try {
+      const movie = await getMovieById(id)
+      setMovieData(movie)
+    } catch (err) {
+      console.log(err)
     }
+  }
+
+  useEffect(() => {
+    if (!movieData) setMovie()
   }, [])
 
-  const handleBack = () => navigate('/')
+  const handleBack = () => navigate(-1)
 
   return (
     <StyledDescriptionContainer>

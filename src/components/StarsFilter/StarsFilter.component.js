@@ -5,7 +5,7 @@ const StarsFilter = ({ handleVote, rate = 0 }) => {
   return (
     <StyledStarsContainer>
       Filter by popularity:
-      <Rating size={24} onClick={handleVote} ratingValue={rate} />
+      <Rating size={24} allowHover={false} onClick={handleVote} ratingValue={rate} />
     </StyledStarsContainer>
   )
 }
